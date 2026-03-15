@@ -1,0 +1,202 @@
+Git: It is basically a version control software that stores various versions of your code
+with this we can view and resotre (if we so please) old versions of our code.
+
+We use windows powershell to instruct Git, but we can also use the git command line.
+
+ls - list all the files and the folders in the current folder
+              All the git commands run inside a specific folder, by default it runs inside the $HOME
+              folder.
+
+To change the folder to our project folder we do the following:  
+
+cd ~/Desktop/file_name
+
+To create version(s) of the code, this command will start tracking every file in that folder
+
+ git init
+
+
+To know how many changes have been made to the file, we do the following,
+
+git status
+
+To add the files in the version
+
+1. git add file_name
+2. git add folder_name (If there is a folder inside the project_file (file_name) then git will add all the files in the folder)
+3. git add .    (This will add all the files inisde the project folder)
+
+(run git status to confirm if these files have been added to the version)
+
+git add command does not create a new version but it allows us to add what will be in the new version
+
+
+To create a new version, a version in git is known as a commit
+
+git commit -m "your message"
+
+for a windows machine, we have to configure an email and a name to display on the commit
+
+git config --global user.email "email"
+git config --global user.name "name"
+
+we have created a version for our code succesfully
+
+To check the version history of our code, we do the following: 
+
+git log 
+
+If we want to change the commit message if we make a mistake, 
+
+
+git commit -m "your_edited_message" --amend
+
+The same way, if a new folder is added in the project file 
+of if something new has been added after commiting, we can do the same but the 
+message must remain the same.
+
+If there is a change in the code, like what is written in the code then for a code editor like VS 
+which has a built in git section, it can show us the changes made in the code compared to the
+original version.
+
+Whenever we make changes to our code, we do so ourselves, so in order to save these changes for 
+the next version, we can do, 
+
+git add .
+
+This will store all the changes in the staging area which will then be sent into a new commit.
+
+Working area is where we are working on the code, once done, we can save the code in the editor and 
+then add the files so that they can enter the staging area and then commit so that these changes can 
+go to the new version. 
+
+Git fundamentally tracks changes in the files and not the files themselves.
+
+To take the file out of the staging area and into the working area again, we can use the following command: 
+
+
+git reset file_name
+git reset folder_name (removes all the files and sub folders insdie this folder from the staging area)
+
+If we want to reset all the changes in the code of the file and retore the file to its original state we can,
+
+git checkout -- file_name
+git checkout -- folder_name
+git checkout -- .
+
+
+In order to switch between versions, we can 
+
+git checkout commit_hash
+
+After doing this we can do git log --all (which will display all the versions).
+Right next to the commit hash of a version there will be written (HEAD) meaning 
+that we are currently viewing that version in our code editor
+
+
+Branching: 
+If we access a version in git through our code editor, edit csome lines in it and then save it
+we have now created a branch of that version.
+
+In order to view the branches between versions, we can 
+
+git log --all --graph
+(git log doesn't show unnamed branches)
+
+To restore the files contents of a file in the previous version to the current version, we can, 
+ 
+git checkout command_hash file/folder_name
+
+This will restore the file contents of a file present in the current version to a the contents of the 
+file in the previous version without branching the previous version out.
+
+To add these changes to our version history, we can
+
+step 1 : git status (because we did git checkout commit hash file/folder_name, git adds it in the staging area for us automatically)
+step 2: git commit -m "version updated"
+step 3: git log --all --graph (to make sure that we succesfully bypassed branching)
+
+
+
+Aliases:
+
+Instead of typing 'git status' we can type 'git s' this is called an abbreviation or an alias
+in order to set up an alias in git we can
+
+git config --global alias.what you want the alias to be "what it stands for"
+
+
+To tell git what files to ignore (i.e not to track) in the versions we can, 
+ 
+step 1: make a ".gitignore" file and put your file name into that file
+step 2: go the tab and add git ignore and pass it on as a version if you haven't already
+step 3: git status to see if it really did work
+
+
+To remove git from our project files completely
+rm -rf .git
+
+Two way sync - 
+
+Ex. Google drive, 
+
+Update on computer -> update on our drive
+Update on drive -> update on the computer 
+
+This is called two way sync, meaning it allows us to store our files in a cloud and whenever
+we make chanegs to it, it updates depending on where you made the changes from.
+
+Github is specifically designed for git repos
+Google drive does not store version history, but GitHub does.
+
+The folder we have on our computer is called the local repo
+but the repo we create on GitHub is called a remote repo
+
+To upload our local to remote repo we can, 
+
+Step 1: git remote add "name of your remote repo(what you want it to be, convention is "origin") <url of our remote repo>"
+
+Step 2: check if link has been established, "git remote -v"(more detailes)/ "git remote"
+
+                                  To remove a remote repo, we can,
+
+                                               git remote remove <name of remote repo>
+
+Definitions: 
+
+1. Push - Uploading changes(new_versions/branches) to GitHub from local repo
+2. Pull - Downloading from GitHub
+
+How to push? 
+
+Step 1: Log in to your github account from command line
+                         git config --global credential.username "<username>"
+Step 2: Push to github
+                  git push origin <branch/version name>(but conventionally "master")
+	
+
+Also, if you've created a new repository entirely, run this command to push the new file
+on the github repository
+
+git -u push origin main
+
+If you do  git log --all --graph, there will be an "origin/master" line next to whatever you've pushed
+this is called a remote tracking branch.
+
+Since we pushed our files to github, it now has a copy of whatever we pushed, it tells us
+what the master branch or the main branch looks like on our github repo
+
+
+Run this command to download the code from the remote to a local repository, 
+
+git clone <repository_url> folder_name(of the local repo you want to store it in)
+
+Once you make the changes needed in the code via the cloned local repository,
+commit and push.
+
+After that switch the command directory to the original local repository and then,
+
+git fetch
+
+This fetches the changes from github done to the local repository and then updates it
+automatically.
